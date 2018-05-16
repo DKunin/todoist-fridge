@@ -1,0 +1,18 @@
+{
+  "name": "todoist-fridge",
+  "version": "0.0.1",
+  "private": false,
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dkunin/todoist-fridge.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dkunin/todoist-fridge/issues"
+  },
+  "scripts": {
+  },
+  "homepage": "https://github.com/dkunin/todoist-fridge",
+  "keywords": [],
+  "license": "MIT"
+}
