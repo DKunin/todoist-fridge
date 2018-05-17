@@ -2,12 +2,101 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Todoist Fridge</title>
+    <link rel="shortcut icon" type="image/x-icon" href="assets/icons/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="manifest" href="./manifest.json">
     <style>
         .fridge-item {
             max-width: 800px;
             display: flex;
-            justify-content: space-between;
+        }
+        body {
+            font-family: Helvetica;
+        }
+        .items-list {
+            list-style: none;
+            padding: 0;
+        }
+        .fridge-item-name {
+            padding: 10px;
+            display: flex;
+            align-content: center;
+        }
+
+        [class*='volume_'], .icon {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-size: cover;
+        }
+
+        .icon-list {
+            background-image: url('./assets/list.svg');
+        }
+
+        .icon-settings {
+            background-image: url('./assets/settings.svg');
+        }
+
+        .volume_none {
+            background-image: url('./assets/none.svg');
+        }
+
+        .volume_some {
+            background-image: url('./assets/some.svg');
+        }
+
+        .volume_full {
+            background-image: url('./assets/full.svg');
+        }
+
+        .item-status-icon {
+            display: none;
+        }
+
+        .item-status-icon + [class*='volume_'] {
+            opacity: .1;
+        }
+
+        .item-status-icon:checked + [class*='volume_'] {
+            opacity: 1;
+        }
+
+        .button {
+            background-color: red;
+            width: 100%;
+            color: white;
+            padding: 25px;
+            font-size: 20px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            font-size: 24px;
+            display: block;
+            width: 100%;
+            padding: 10px 0 0 0;
+            margin: 25px 0;
+            border-color: transparent;
+            border-bottom: 1px solid black;
+        }
+
+        nav {
+            float: right;
+        }
+        nav a {
+            opacity: .3;
+        }
+        .router-link-exact-active {
+            opacity: 1;
+        }
+        h2 {
+            font-size: 32px;
+            line-height: 32px;
+            padding: 0;
+            margin: 2px;
         }
     </style>
 </head>

@@ -3,18 +3,22 @@
 const template = `<div>
         <h2>List</h2>
 
-        <ul>
+        <ul class="items-list">
             <li v-for="item in itemsList" class="fridge-item">
-                <div>{{ item.content }}</div>
                 <form @change="handleChange">
                     <label v-for="label in labels">
-                        {{ label.name }}
-                        <input :checked="item.volume === label.id.toString() || item.label_ids.includes(label.id)" type="radio" :name="item.id" :value="label.id"/>
+                        <input
+                            class="item-status-icon"
+                            :checked="item.volume === label.id.toString() || (item.volume ===  undefined && item.label_ids && item.label_ids.includes(label.id))" type="radio"
+                            :name="item.id"
+                            :value="label.id"/>
+                        <span :class="label.name"></span>
                     </label>
                 </form>
+                <div class="fridge-item-name">{{ item.content }}</div>
             </li>
         </ul>
-        <button @click="sync">Update</button>
+        <button @click="sync" class="button">Update</button>
     </div>`;
 
 const listPage = {

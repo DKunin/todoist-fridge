@@ -78,10 +78,8 @@ const store = new Vuex.Store({
 const template = `
     <main>
         <nav>
-            <ul>
-                <li><router-link to="/">list</router-link></li>
-                <li><router-link to="/settings">settings</router-link></li>
-            </ul>
+            <router-link to="/"><span class="icon icon-list"></span></router-link>
+            <router-link to="/settings"><span class="icon icon-settings"></span></router-link>
         </nav>
         <router-view />
     </main>

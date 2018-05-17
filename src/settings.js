@@ -3,13 +3,9 @@
 const template = `<div>
         <h2>Settings</h2>
         <form @submit="handleSubmit">
-            <div>
-                <input :value="settings.api_key" name="api_key" type="text" placeholder="Api key"/>
-            </div>
-            <div>
-                <input :value="settings.list_query" name="list_query" type="text" placeholder="List query" />
-            </div>
-            <button>Save</button>
+            <input :value="settings.api_key" name="api_key" type="text"     placeholder="Api key"/>
+            <input :value="settings.list_query" name="list_query" type="text" placeholder="List query" />
+            <button class="button">Save</button>
         </form>
     </div>`;
 
