@@ -18,7 +18,14 @@ const template = `<div>
                 <div class="fridge-item-name">{{ item.content }}</div>
             </li>
         </ul>
-        <button @click="sync" class="button">Update</button>
+        <button @click="sync" class="button" :disabled="loadingStatus === 'loading'">
+            <span v-if="loadingStatus === 'saved'">
+                Update
+            </span>
+            <span v-if="loadingStatus === 'loading'">
+                Updating
+            </span>
+        </button>
     </div>`;
 
 const listPage = {
@@ -28,6 +35,9 @@ const listPage = {
         },
         labels() {
             return this.$store.state.labels;
+        },
+        loadingStatus() {
+            return this.$store.state.loadingStatus;
         }
     },
     methods: {

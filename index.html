@@ -64,6 +64,7 @@
         }
 
         .button {
+            transition: background-color 700ms linear;
             background-color: red;
             width: 100%;
             color: white;
@@ -71,6 +72,11 @@
             font-size: 20px;
             text-transform: uppercase;
             font-weight: bold;
+        }
+
+        .button[disabled] {
+            background-color: gray;
+            opacity: .2;
         }
 
         input[type="text"] {
@@ -89,9 +95,11 @@
         nav a {
             opacity: .3;
         }
+
         .router-link-exact-active {
             opacity: 1;
         }
+
         h2 {
             font-size: 32px;
             line-height: 32px;

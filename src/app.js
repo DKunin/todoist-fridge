@@ -1,6 +1,7 @@
 import settingsPage from './settings.js';
 import listPage from './list.js';
 const API_URL = 'https://beta.todoist.com/API/v8';
+
 const routes = [
     { path: '/', component: listPage },
     { path: '/settings', component: settingsPage }
@@ -8,7 +9,7 @@ const routes = [
 
 const persistList = store => {
     store.subscribe((mutation, state) => {
-        if (mutation.type === 'updateVolume') {
+        if (mutation.type === 'updateVolume' || mutation.type === 'sync') {
             localStorage.setItem('todolist', JSON.stringify(state.list));
         }
         if (mutation.type === 'updateSettings') {
@@ -29,7 +30,8 @@ const store = new Vuex.Store({
         settings: JSON.parse(localStorage.getItem('settings')) || {
             api_key: null,
             list_query: null
-        }
+        },
+        loadingStatus: 'saved'
     },
     mutations: {
         updateVolume(state, data) {
@@ -48,9 +50,10 @@ const store = new Vuex.Store({
         updateSettings(state, data) {
             Vue.set(state.settings, data.key, data.value);
         },
-        sync(state, data) {
+        sync(state) {
             state.list.forEach(singleItem => {
                 if (singleItem.volume) {
+                    Vue.set(state, 'loadingStatus', 'loading');
                     fetch(`${API_URL}/tasks/${singleItem.id}`, {
                         method: 'POST',
                         headers: {
@@ -63,7 +66,7 @@ const store = new Vuex.Store({
                         })
                     })
                         .then(res => {
-                            console.log(res);
+                            Vue.set(state, 'loadingStatus', 'saved');
                         })
                         .catch(err => console.log(err));
                 }
