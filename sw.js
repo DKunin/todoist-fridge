@@ -70,7 +70,12 @@ self.onfetch = function(event) {
         // Respond with
         event.respondWith(
             caches.match(event.request).then(function(res) {
-                return res || fetch(event.request);
+                return (
+                    res ||
+                    fetch(event.request).catch(err => {
+                        console.log('[serviceWorker]: Fetch Error ' + err);
+                    })
+                );
             })
         );
     }

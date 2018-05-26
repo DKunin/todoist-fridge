@@ -2,7 +2,24 @@
 
 const template = `<div>
         <h2>List</h2>
+        <div class="filters">
 
+            <div class="single-filter">
+                <select v-model="sort">
+                    <option value="">-</option>
+                    <option value="desc">A-Z</option>
+                    <option value="asc">Z-A</option>
+                </select>
+            </div>
+
+            <div class="single-filter">
+                <select v-model="show">
+                    <option value="">all</option>
+                    <option v-for="label in labels" :value="label.id">{{ label.name }}</option>
+                </select>
+            </div>
+
+        </div>
         <ul class="items-list">
             <li v-for="item in itemsList" class="fridge-item">
                 <form @change="handleChange">
@@ -31,7 +48,36 @@ const template = `<div>
 const listPage = {
     computed: {
         itemsList() {
-            return this.$store.state.list;
+            const { sort, show } = this;
+
+            let sorted;
+
+            if (!Boolean(sort)) {
+                sorted = this.$store.state.list.sort(
+                    (singleItemA, singleItemB) => {
+                        return singleItemA.id > singleItemB.id;
+                    }
+                );
+            }
+
+            sorted = this.$store.state.list.sort((singleItemA, singleItemB) => {
+                if (singleItemA.content < singleItemB.content) {
+                    return sort === 'desc' ? -1 : 1;
+                }
+                if (singleItemA.content > singleItemB.content) {
+                    return sort === 'desc' ? 1 : -1;
+                }
+                return 0;
+            });
+
+            const filtered = sorted.filter(singleItems => {
+                if (show && singleItems.label_ids) {
+                    return singleItems.label_ids.includes(show);
+                }
+                return singleItems;
+            });
+
+            return filtered;
         },
         labels() {
             return this.$store.state.labels;
@@ -53,7 +99,8 @@ const listPage = {
     },
     data() {
         return {
-
+            sort: null,
+            show: null
         };
     },
     template
