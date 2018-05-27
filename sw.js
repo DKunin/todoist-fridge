@@ -1,8 +1,8 @@
+'use strict';
 const CACHE_NAME = 'todoist-fridge';
 
 // Files to cache, skeleton of the app
 const urlsToCache = [
-    './',
     './index.html',
     './manifest.json',
     './src/app.js',
@@ -20,7 +20,12 @@ const urlsToCache = [
     './assets/icons/icon-196.png',
     './assets/icons/icon-384.png',
     './assets/icons/android-chrome-192x192.png',
-    './assets/icons/android-chrome-512x512.png'
+    './assets/icons/android-chrome-512x512.png',
+    './assets/full.svg',
+    './assets/list.svg',
+    './assets/none.svg',
+    './assets/settings.svg',
+    './assets/some.svg'
 ];
 
 // Set the callback for the install step
@@ -53,6 +58,7 @@ self.onfetch = function(event) {
     const raceUrl = 'API/';
 
     // Make and cache the request
+    console.log(event.request.url, event.request.url.indexOf(raceUrl) > -1);
     if (event.request.url.indexOf(raceUrl) > -1) {
         event.respondWith(
             caches.open(CACHE_NAME).then(function(cache) {
@@ -67,12 +73,16 @@ self.onfetch = function(event) {
             })
         );
     } else {
-        // Respond with
         event.respondWith(
             caches.match(event.request).then(function(res) {
+                console.log('res', res);
                 return (
                     res ||
-                    fetch(event.request).catch(err => {
+                    fetch(event.request)
+                    .then(function(res) {
+                        return res;
+                    })
+                    .catch(err => {
                         console.log('[serviceWorker]: Fetch Error ' + err);
                     })
                 );
