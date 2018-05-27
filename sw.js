@@ -3,6 +3,7 @@ const CACHE_NAME = 'todoist-fridge';
 
 // Files to cache, skeleton of the app
 const urlsToCache = [
+    './sw.js',
     './index.html',
     './manifest.json',
     './src/app.js',
@@ -58,8 +59,8 @@ self.onfetch = function(event) {
     const raceUrl = 'API/';
 
     // Make and cache the request
-    console.log(event.request.url, event.request.url.indexOf(raceUrl) > -1);
     if (event.request.url.indexOf(raceUrl) > -1) {
+        console.log(event.request.url, event.request.url.indexOf(raceUrl) > -1);
         event.respondWith(
             caches.open(CACHE_NAME).then(function(cache) {
                 return fetch(event.request)

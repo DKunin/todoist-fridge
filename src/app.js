@@ -115,7 +115,7 @@ const app = {
             .then(res => {
                 this.$store.commit('updateData', { key: 'list', value: res });
             })
-            // .catch(err => console.log(err));
+            .catch(err => console.log(err));
 
         fetch(`${API_URL}/labels`, {
             headers: {
@@ -134,7 +134,7 @@ const app = {
                 }, {});
                 this.$store.commit('updateData', { key: 'labels', value });
             })
-            // .catch(err => console.log(err));
+            .catch(err => console.log(err));
     },
     methods: {}
 };
