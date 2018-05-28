@@ -28,6 +28,8 @@ const store = new Vuex.Store({
         list: JSON.parse(localStorage.getItem('list')) || [],
         labels: JSON.parse(localStorage.getItem('labels')) || {},
         settings: JSON.parse(localStorage.getItem('settings')) || {
+            sort: null,
+            show: null,
             api_key: null,
             list_query: null
         },

@@ -18,8 +18,8 @@ const template = `<div>
                     <option v-for="label in labels" :value="label.id">{{ label.name }}</option>
                 </select>
             </div>
-
         </div>
+
         <ul class="items-list">
             <li v-for="item in itemsList" class="fridge-item">
                 <form @change="handleChange">
@@ -35,6 +35,7 @@ const template = `<div>
                 <div class="fridge-item-name">{{ item.content }}</div>
             </li>
         </ul>
+
         <button @click="sync" class="button" :disabled="loadingStatus === 'loading'">
             <span v-if="loadingStatus === 'saved'">
                 Update
@@ -44,6 +45,8 @@ const template = `<div>
             </span>
         </button>
     </div>`;
+
+let syncTimeout = setTimeout(() => {}, 0);
 
 const listPage = {
     computed: {
@@ -92,6 +95,10 @@ const listPage = {
                 id: event.target.name,
                 value: event.target.value
             });
+            clearTimeout(syncTimeout);
+            syncTimeout = setTimeout(() => {
+                this.$store.commit('sync');
+            }, 1000)
         },
         sync(event) {
             this.$store.commit('sync');
@@ -99,9 +106,23 @@ const listPage = {
     },
     data() {
         return {
-            sort: null,
-            show: null
+            sort: this.$store.state.settings.sort,
+            show: this.$store.state.settings.show
         };
+    },
+    watch: {
+        sort: function (newVal, oldVal) {
+            this.$store.commit('updateSettings', {
+                key: 'sort',
+                value: newVal
+            });
+        },
+        show: function (newVal, oldVal) {
+            this.$store.commit('updateSettings', {
+                key: 'show',
+                value: newVal
+            });
+        }
     },
     template
 };
