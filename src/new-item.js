@@ -31,7 +31,13 @@ const newItemPage = {
                 this.$router.push({ path: '/' });
                 return;
             }
+
             this.$store.dispatch('addNewItem', this.name.trim());
+            setTimeout(() => {
+                this.$store.dispatch('fetchTasks');
+            }, 1000)
+            this.$router.push({ path: '/' });
+
         },
         remove(event) {
             event.preventDefault();
@@ -41,7 +47,7 @@ const newItemPage = {
     },
     data() {
         return {
-            name: this.$route.query.content || null
+            name: this.$route.query.content ? unescape(this.$route.query.content) : null
         };
     },
     template
