@@ -11,6 +11,9 @@
             max-width: 800px;
             display: flex;
         }
+        .fridge-item > form {
+            white-space: nowrap;
+        }
         body {
             font-family: Helvetica;
         }
@@ -35,16 +38,20 @@
             background-image: url('./assets/list.svg');
         }
 
+        .icon-plus:after {
+            content: '+';
+            color: black;
+            font-size: 50px;
+            position: absolute;
+            top: -11px;
+        }
+
         .icon-settings {
             background-image: url('./assets/settings.svg');
         }
 
         .volume_none {
             background-image: url('./assets/none.svg');
-        }
-
-        .volume_some {
-            background-image: url('./assets/some.svg');
         }
 
         .volume_full {
@@ -124,6 +131,7 @@
 <script src="./vendor/vue-router.min.js"></script>
 <script type="module" src="./src/main.js"></script>
 <script>
+
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker
             .register('./sw.js')

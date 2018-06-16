@@ -15,7 +15,9 @@ const template = `<div>
             <div class="single-filter">
                 <select v-model="show">
                     <option value="">all</option>
-                    <option v-for="label in labels" :value="label.id">{{ label.name }}</option>
+                    <option v-for="label in labels" :value="label.id">
+                        {{ mapLabels(label.name) }}
+                    </option>
                 </select>
             </div>
         </div>
@@ -32,7 +34,7 @@ const template = `<div>
                         <span :class="label.name"></span>
                     </label>
                 </form>
-                <div class="fridge-item-name">{{ item.content }}</div>
+                <div class="fridge-item-name" @dblclick="editItem(item)">{{ item.content }}</div>
             </li>
         </ul>
 
@@ -72,7 +74,6 @@ const listPage = {
                 }
                 return 0;
             });
-
             const filtered = sorted.filter(singleItems => {
                 if (show && singleItems.label_ids) {
                     return singleItems.label_ids.includes(show);
@@ -102,6 +103,12 @@ const listPage = {
         },
         sync(event) {
             this.$store.commit('sync');
+        },
+        mapLabels(singleLabel) {
+            return singleLabel.replace('volume_', '');
+        },
+        editItem(item) {
+            this.$router.push({ path: `/edit/${item.id}`, query: { content: escape(item.content) }})
         }
     },
     data() {
@@ -111,13 +118,13 @@ const listPage = {
         };
     },
     watch: {
-        sort: function (newVal, oldVal) {
+        sort(newVal, oldVal) {
             this.$store.commit('updateSettings', {
                 key: 'sort',
                 value: newVal
             });
         },
-        show: function (newVal, oldVal) {
+        show(newVal, oldVal) {
             this.$store.commit('updateSettings', {
                 key: 'show',
                 value: newVal

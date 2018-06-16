@@ -75,7 +75,6 @@ self.onfetch = function(event) {
     } else {
         event.respondWith(
             caches.match(event.request).then(function(res) {
-                console.log('res', res);
                 return (
                     res ||
                     fetch(event.request)
