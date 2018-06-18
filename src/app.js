@@ -156,17 +156,21 @@ const store = new Vuex.Store({
         updateVolume(state, data) {
             const newList = state.list.map(singleItem => {
                 if (singleItem.id.toString() === data.id) {
-                    singleItem.label_ids = singleItem.label_ids.map(
-                        singleLabelId => {
-                            if (
-                                !singleItem.volume ||
-                                singleLabelId === parseInt(singleItem.volume)
-                            ) {
-                                return parseInt(data.value);
+                    if (singleItem.label_ids) {
+                        singleItem.label_ids = singleItem.label_ids.map(
+                            singleLabelId => {
+                                if (
+                                    !singleItem.volume ||
+                                    singleLabelId === parseInt(singleItem.volume)
+                                ) {
+                                    return parseInt(data.value);
+                                }
+                                return singleLabelId;
                             }
-                            return singleLabelId;
-                        }
-                    );
+                        );
+                    } else {
+                        singleItem.label_ids = [parseInt(data.value)];
+                    }
                     singleItem.volume = data.value;
                 }
                 return singleItem;
