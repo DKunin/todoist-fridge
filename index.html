@@ -6,7 +6,26 @@
     <link rel="shortcut icon" type="image/x-icon" href="assets/icons/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="manifest" href="./manifest.json">
+    <link rel="stylesheet" href="./vendor/lemon.min.css">
     <style>
+        body { margin: 0 }
+
+        h1, h2, h3, h4, h5, h6 { font-weight:normal }
+
+        table
+        {
+         border-collapse: collapse;
+         border-spacing: 0
+        }
+
+        th, td
+        {
+         text-align: left;
+         vertical-align: top
+        }
+
+        img, iframe { border: 0 }
+
         .fridge-item {
             max-width: 800px;
             display: flex;
@@ -38,12 +57,8 @@
             background-image: url('./assets/list.svg');
         }
 
-        .icon-plus:after {
-            content: '+';
-            color: black;
-            font-size: 50px;
-            position: absolute;
-            top: -4px;
+        .icon-plus {
+            background-image: url('./assets/plus.svg');
         }
 
         .icon-settings {
@@ -58,7 +73,7 @@
             background-image: url('./assets/full.svg');
         }
 
-        .item-status-icon {
+        input[type="radio"].item-status-icon {
             display: none;
         }
 
@@ -113,12 +128,21 @@
             padding: 0;
             margin: 2px;
         }
-        .filters {
-            display: flex;
-            justify-content: space-around;
+        
+        .item-status-label {
+            display: inline;
         }
-        select {
-            font-size: 18px;
+
+        .row.center, .column.center {
+            align-content: center;
+            justify-content: center;
+            flex: inherit;
+            flex-direction: row;
+        }
+        
+        .force-row {
+            flex-direction: row;
+            padding: 1em 0;
         }
     </style>
 </head>

@@ -14,10 +14,10 @@ function enableNoSleep() {
 document.addEventListener('click', enableNoSleep, false);
 
 const routes = [
-    { path: '/', component: listPage },
-    { path: '/settings', component: settingsPage },
-    { path: '/new', component: newItem },
-    { path: '/edit/:itemId', component: newItem }
+    { name:'List', path: '/', component: listPage },
+    { name:'Settings', path: '/settings', component: settingsPage },
+    { name:'New', path: '/new', component: newItem },
+    { name:'Edit', path: '/edit/:itemId', component: newItem }
 ];
 
 const persistList = store => {
@@ -212,12 +212,19 @@ const store = new Vuex.Store({
 });
 
 const template = `
-    <main>
-        <nav>
-            <router-link to="/"><span class="icon icon-list"></span></router-link>
-            <router-link to="/new"><span class="icon icon-plus"></span></router-link>
-            <router-link to="/settings"><span class="icon icon-settings"></span></router-link>
-        </nav>
+    <main class="container">
+        <div class="row force-row">
+            <div class="column">
+                <h2>{{ $route.name }}</h2>
+            </div>
+            <div class="column">
+                <nav>
+                    <router-link to="/"><span class="icon icon-list"></span></router-link>
+                    <router-link to="/new"><span class="icon icon-plus"></span></router-link>
+                    <router-link to="/settings"><span class="icon icon-settings"></span></router-link>
+                </nav>
+            </div>
+        </div>
         <router-view />
     </main>
 `;

@@ -1,51 +1,60 @@
 'use strict';
 
 const template = `<div>
-        <h2>List</h2>
-        <div class="filters">
-
-            <div class="single-filter">
-                <select v-model="sort">
-                    <option value="">-</option>
-                    <option value="desc">A-Z</option>
-                    <option value="asc">Z-A</option>
-                </select>
+        <div class="row">
+            <div class="column">
+                <div class="single-filter">
+                    <select v-model="sort">
+                        <option value="">-</option>
+                        <option value="desc">A-Z</option>
+                        <option value="asc">Z-A</option>
+                    </select>
+                </div>
             </div>
-
-            <div class="single-filter">
-                <select v-model="show">
-                    <option value="">all</option>
-                    <option v-for="label in labels" :value="label.id">
-                        {{ mapLabels(label.name) }}
-                    </option>
-                </select>
+            <div class="column">
+                <div class="single-filter">
+                    <select v-model="show">
+                        <option value="">all</option>
+                        <option v-for="label in labels" :value="label.id">
+                            {{ mapLabels(label.name) }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column">
+                <ul class="items-list">
+                    <li v-for="item in itemsList" class="fridge-item">
+                        <form @change="handleChange">
+                            <label class="item-status-label" v-for="label in labels">
+                                <input
+                                    class="item-status-icon"
+                                    :checked="item.volume === label.id.toString() || (item.volume ===  undefined && item.label_ids && item.label_ids.includes(label.id))" type="radio"
+                                    :name="item.id"
+                                    :value="label.id"/>
+                                <span :class="label.name"></span>
+                            </label>
+                        </form>
+                        <div class="fridge-item-name" @dblclick="editItem(item)">{{ item.content }}</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="row center">
+            <div class="column center">
+                <button @click="sync" class="btn" :disabled="loadingStatus === 'loading'">
+                    <span v-if="loadingStatus === 'saved'">
+                        Update
+                    </span>
+                    <span v-if="loadingStatus === 'loading'">
+                        Updating
+                    </span>
+                </button>
             </div>
         </div>
 
-        <ul class="items-list">
-            <li v-for="item in itemsList" class="fridge-item">
-                <form @change="handleChange">
-                    <label v-for="label in labels">
-                        <input
-                            class="item-status-icon"
-                            :checked="item.volume === label.id.toString() || (item.volume ===  undefined && item.label_ids && item.label_ids.includes(label.id))" type="radio"
-                            :name="item.id"
-                            :value="label.id"/>
-                        <span :class="label.name"></span>
-                    </label>
-                </form>
-                <div class="fridge-item-name" @dblclick="editItem(item)">{{ item.content }}</div>
-            </li>
-        </ul>
-
-        <button @click="sync" class="button" :disabled="loadingStatus === 'loading'">
-            <span v-if="loadingStatus === 'saved'">
-                Update
-            </span>
-            <span v-if="loadingStatus === 'loading'">
-                Updating
-            </span>
-        </button>
     </div>`;
 
 let syncTimeout = setTimeout(() => {}, 0);

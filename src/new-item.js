@@ -1,17 +1,24 @@
 'use strict';
 
 const template = `<div>
-        <h2 v-if="!$route.query.content">New Item</h2>
-        <h2 v-if="$route.query.content">Edit Item</h2>
         <form @submit="handleSubmit">
-            <input v-model="name" type="text" />
-            <button class="button">
-                <span v-if="!$route.query.content">Add</span>
-                <span v-if="$route.query.content">Save</span>
-            </button>
-            <button @click="remove" v-if="$route.query.content" class="button" type="button">
-                Remove
-            </button>
+            <div class="row">
+                <div class="column">
+                    <input v-model="name" type="text" />
+                </div>
+            </div>
+
+            <div class="row center">
+                <div class="column center">
+                    <button class="btn">
+                        <span v-if="!$route.query.content">Add</span>
+                        <span v-if="$route.query.content">Save</span>
+                    </button>
+                    <button @click="remove" v-if="$route.query.content" class="btn outline" type="button">
+                        Remove
+                    </button>
+                </div>
+            </div>
         </form>
     </div>`;
 

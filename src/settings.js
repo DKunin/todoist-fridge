@@ -1,11 +1,14 @@
 'use strict';
 
 const template = `<div>
-        <h2>Settings</h2>
         <form @submit="handleSubmit">
             <input :value="settings.api_key" name="api_key" type="text" placeholder="Api key"/>
             <input :value="settings.list_query" name="list_query" type="text" placeholder="List query" />
-            <button class="button">Save</button>
+            <div class="row center">
+                <div class="column center">
+                    <button class="btn">Save</button>
+                </div>
+            </div>
         </form>
     </div>`;
 
