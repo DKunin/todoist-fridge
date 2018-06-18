@@ -14,6 +14,9 @@ const urlsToCache = [
     './vendor/vue-router.min.js',
     './vendor/vue.min.js',
     './vendor/vuex.min.js',
+    './vendor/media.js',
+    './vendor/no-sleep.js',
+    './vendor/lemon.min.css',
     './assets/icons/favicon.ico',
     './assets/icons/icon-96.png',
     './assets/icons/icon-48.png',
@@ -25,8 +28,7 @@ const urlsToCache = [
     './assets/full.svg',
     './assets/list.svg',
     './assets/none.svg',
-    './assets/settings.svg',
-    './assets/some.svg'
+    './assets/settings.svg'
 ];
 
 // Set the callback for the install step
