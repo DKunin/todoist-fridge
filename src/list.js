@@ -24,8 +24,8 @@ const template = `<div>
         </div>
         <div class="row">
             <div class="column">
-                <ul class="items-list">
-                    <li v-for="item in itemsList" class="fridge-item">
+                <ul class="items-list" name="fade-list" is="transition-group">
+                    <li v-for="item in itemsList" class="fridge-item" v-bind:key="item">
                         <form @change="handleChange">
                             <label class="item-status-label" v-for="label in labels">
                                 <input
