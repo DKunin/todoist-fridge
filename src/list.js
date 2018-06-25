@@ -15,9 +15,8 @@ const template = `<div>
                 <div class="single-filter">
                     <select v-model="show">
                         <option value="">all</option>
-                        <option v-for="label in labels" :value="label.id">
-                            {{ mapLabels(label.name) }}
-                        </option>
+                        <option value="none">none</option>
+                        <option value="full">full</option>
                     </select>
                 </div>
             </div>
@@ -27,13 +26,11 @@ const template = `<div>
                 <ul class="items-list" name="fade-list" is="transition-group">
                     <li v-for="item in itemsList" class="fridge-item" v-bind:key="item">
                         <form @change="handleChange">
-                            <label class="item-status-label" v-for="label in labels">
+                            <label class="item-status-label" >
                                 <input
                                     class="item-status-icon"
-                                    :checked="item.volume === label.id.toString() || (item.volume ===  undefined && item.label_ids && item.label_ids.includes(label.id))" type="radio"
-                                    :name="item.id"
-                                    :value="label.id"/>
-                                <span :class="label.name"></span>
+                                    :checked="checkIfChecked(item)" type="checkbox" :name="item.id"/>
+                                <span class="icon item-status-icon-image"></span>
                             </label>
                         </form>
                         <div class="fridge-item-name" @dblclick="editItem(item)">{{ item.content }}</div>
@@ -84,10 +81,7 @@ const listPage = {
                 return 0;
             });
             const filtered = sorted.filter(singleItems => {
-                if (show && singleItems.label_ids) {
-                    return singleItems.label_ids.includes(show);
-                }
-                return singleItems;
+                return show === 'full' && singleItems.priority > 1 || show === 'none' && singleItems.priority <= 1 || show === '';
             });
 
             return filtered;
@@ -103,7 +97,7 @@ const listPage = {
         handleChange(event) {
             this.$store.commit('updateVolume', {
                 id: event.target.name,
-                value: event.target.value
+                value: event.target.checked
             });
             clearTimeout(syncTimeout);
             syncTimeout = setTimeout(() => {
@@ -118,6 +112,9 @@ const listPage = {
         },
         editItem(item) {
             this.$router.push({ path: `/edit/${item.id}`, query: { content: escape(item.content) }})
+        },
+        checkIfChecked(item) {
+            return item.priority > 1;
         }
     },
     data() {

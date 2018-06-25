@@ -155,23 +155,10 @@ const store = new Vuex.Store({
     mutations: {
         updateVolume(state, data) {
             const newList = state.list.map(singleItem => {
+                console.log(singleItem.id.toString(), data.id);
                 if (singleItem.id.toString() === data.id) {
-                    if (singleItem.label_ids) {
-                        singleItem.label_ids = singleItem.label_ids.map(
-                            singleLabelId => {
-                                if (
-                                    !singleItem.volume ||
-                                    singleLabelId === parseInt(singleItem.volume)
-                                ) {
-                                    return parseInt(data.value);
-                                }
-                                return singleLabelId;
-                            }
-                        );
-                    } else {
-                        singleItem.label_ids = [parseInt(data.value)];
-                    }
-                    singleItem.volume = data.value;
+                    singleItem.priority = data.value ? 2 : 1;
+                    singleItem.shouldSave = true;
                 }
                 return singleItem;
             });
@@ -186,7 +173,7 @@ const store = new Vuex.Store({
         },
         sync(state) {
             state.list.forEach(singleItem => {
-                if (singleItem.volume) {
+                if (singleItem.shouldSave) {
                     Vue.set(state, 'loadingStatus', 'loading');
                     fetch(`${API_URL}/tasks/${singleItem.id}`, {
                         method: 'POST',
@@ -195,7 +182,8 @@ const store = new Vuex.Store({
                             Authorization: `Bearer ${state.settings.api_key}`
                         },
                         body: JSON.stringify({
-                            label_ids: [parseInt(singleItem.volume)]
+                            priority: singleItem.priority
+                            // label_ids: [parseInt(singleItem.volume)]
                         })
                     })
                         .then(res => {
