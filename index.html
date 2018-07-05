@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="manifest" href="./manifest.json">
     <link rel="stylesheet" href="./vendor/lemon.min.css">
+    <link rel="stylesheet" href="./vendor/boxicons.min.css">
     <style>
         body { margin: 0 }
 
@@ -55,38 +56,24 @@
             top: 7px;
         }
 
-        .icon-list {
-            background-image: url('./assets/list.svg');
-        }
-
-        .icon-plus {
-            background-image: url('./assets/plus.svg');
-        }
-
-        .icon-settings {
-            background-image: url('./assets/settings.svg');
-        }
-
-        .volume_none {
-            
-        }
-
-        .volume_full {
-            
-        }
 
         input[type="checkbox"].item-status-icon {
             display: none;
         }
 
-        .item-status-icon + .item-status-icon-image {
-            background-image: url('./assets/none.svg');
-            opacity: .1;
+        .item-status-icon + .bx-checkbox-interactive:before {
+            content: "\e964";
+            position: relative;
+            left: -1px;
+            /*background-image: url('./assets/none.svg');
+            opacity: .1;*/
         }
 
-        .item-status-icon:checked + .item-status-icon-image {
-            opacity: 1;
-            background-image: url('./assets/full.svg');
+        .item-status-icon:checked + .bx-checkbox-interactive:before {
+            left: 0;
+            content: "\e965";
+            /*opacity: 1;
+            background-image: url('./assets/full.svg');*/
         }
 
         .button {
@@ -117,9 +104,12 @@
 
         nav {
             float: right;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         nav a {
-            opacity: .3;
+            opacity: .5;
         }
 
         .router-link-exact-active {
@@ -162,7 +152,9 @@
             transition: all 0.5s ease;
             opacity: 0;
         }
-
+        .bx-icon-size {
+            font-size: 40px;
+        }
     </style>
 </head>
 <body>

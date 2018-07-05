@@ -30,7 +30,7 @@ const template = `<div>
                                 <input
                                     class="item-status-icon"
                                     :checked="checkIfChecked(item)" type="checkbox" :name="item.id"/>
-                                <span class="icon item-status-icon-image"></span>
+                                <i class='bx bx-checkbox-interactive bx-icon-size'></i>
                             </label>
                         </form>
                         <div class="fridge-item-name" @dblclick="editItem(item)">{{ item.content }}</div>

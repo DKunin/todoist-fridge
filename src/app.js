@@ -27,12 +27,13 @@ const persistList = store => {
             mutation.type === 'sync' ||
             mutation.type === 'updateList'
         ) {
-            localStorage.setItem('todolist', JSON.stringify(state.list));
+            localStorage.setItem('list', JSON.stringify(state.list));
         }
         if (mutation.type === 'updateSettings') {
             localStorage.setItem('settings', JSON.stringify(state.settings));
         }
         if (mutation.type === 'updateData') {
+            debugger;
             localStorage.setItem(
                 mutation.payload.key,
                 JSON.stringify(mutation.payload.value)
@@ -155,7 +156,6 @@ const store = new Vuex.Store({
     mutations: {
         updateVolume(state, data) {
             const newList = state.list.map(singleItem => {
-                console.log(singleItem.id.toString(), data.id);
                 if (singleItem.id.toString() === data.id) {
                     singleItem.priority = data.value ? 2 : 1;
                     singleItem.shouldSave = true;
@@ -187,6 +187,7 @@ const store = new Vuex.Store({
                         })
                     })
                         .then(res => {
+                            singleItem.shouldSave = false;
                             Vue.set(state, 'loadingStatus', 'saved');
                         })
                         .catch(err => console.log(err));
@@ -207,9 +208,16 @@ const template = `
             </div>
             <div class="column">
                 <nav>
-                    <router-link to="/"><span class="icon icon-list"></span></router-link>
-                    <router-link to="/new"><span class="icon icon-plus"></span></router-link>
-                    <router-link to="/settings"><span class="icon icon-settings"></span></router-link>
+
+                    <router-link to="/">
+                        <i class='bx bx-list bx-icon-size'></i>
+                    </router-link>
+                    <router-link to="/new">
+                        <i class='bx bx-plus bx-icon-size'></i>
+                    </router-link>
+                    <router-link to="/settings">
+                        <i class='bx bx-cog bx-icon-size'></i>
+                    </router-link>
                 </nav>
             </div>
         </div>
@@ -232,7 +240,7 @@ const app = {
         if (!this.$store.state.settings.api_key) {
             return false;
         }
-        this.$store.dispatch('fetchLabels');
+        // this.$store.dispatch('fetchLabels');
         this.$store.dispatch('fetchTasks');
     },
     methods: {}
