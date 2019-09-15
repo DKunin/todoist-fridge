@@ -2,7 +2,7 @@ import noSleepClass from '../vendor/no-sleep.js';
 import settingsPage from './settings.js';
 import listPage from './list.js';
 import newItem from './new-item.js';
-const API_URL = 'https://beta.todoist.com/API/v8';
+const API_URL = 'https://api.todoist.com/rest/v1';
 
 const noSleep = new noSleepClass();
 
@@ -208,7 +208,6 @@ const template = `
             </div>
             <div class="column">
                 <nav>
-
                     <router-link to="/">
                         <i class='bx bx-list bx-icon-size'></i>
                     </router-link>
@@ -222,6 +221,7 @@ const template = `
             </div>
         </div>
         <router-view />
+        <div class="version">0.5.0</div>
     </main>
 `;
 
