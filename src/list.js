@@ -22,6 +22,9 @@ const template = `<div>
             </div>
         </div>
         <div class="row">
+            <input class="main-search" type="text" v-model="filter" placeholder="search" />
+        </div>
+        <div class="row">
             <div class="column">
                 <ul class="items-list" name="fade-list" is="transition-group">
                     <li v-for="item in itemsList" class="fridge-item" v-bind:key="item">
@@ -59,7 +62,7 @@ let syncTimeout = setTimeout(() => {}, 0);
 const listPage = {
     computed: {
         itemsList() {
-            const { sort, show } = this;
+            const { sort, show, filter } = this;
 
             let sorted;
 
@@ -80,11 +83,16 @@ const listPage = {
                 }
                 return 0;
             });
+
             const filtered = sorted.filter(singleItems => {
                 return show === 'full' && singleItems.priority > 1 || show === 'none' && singleItems.priority <= 1 || show === '';
             });
 
-            return filtered;
+            const searched = filtered.filter(singleItem => {
+                return singleItem.content.toLowerCase().includes((filter || '').toLowerCase())
+            });
+
+            return searched;
         },
         labels() {
             return this.$store.state.labels;
@@ -120,7 +128,8 @@ const listPage = {
     data() {
         return {
             sort: this.$store.state.settings.sort,
-            show: this.$store.state.settings.show
+            show: this.$store.state.settings.show,
+            filter: this.$store.state.settings.filter
         };
     },
     watch: {
@@ -133,6 +142,12 @@ const listPage = {
         show(newVal, oldVal) {
             this.$store.commit('updateSettings', {
                 key: 'show',
+                value: newVal
+            });
+        },
+        filter(newVal, oldVal) {
+            this.$store.commit('updateSettings', {
+                key: 'filter',
                 value: newVal
             });
         }

@@ -20,6 +20,9 @@ Simple app to keep track of list of items in the fridge, with ability to set cur
     - [x] PUT item with label, on each update or periodicaly
     - [x] Settings page, where you can set API and project settings
 - [ ] Design
-- [ ] Make todoist integration optionall
+- [ ] Make todoist integration optional
 - [x] Service worker
 
+# Changelog
+
+0.6.0 - Added filter to search for items

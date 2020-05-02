@@ -33,7 +33,6 @@ const persistList = store => {
             localStorage.setItem('settings', JSON.stringify(state.settings));
         }
         if (mutation.type === 'updateData') {
-            debugger;
             localStorage.setItem(
                 mutation.payload.key,
                 JSON.stringify(mutation.payload.value)
@@ -221,7 +220,7 @@ const template = `
             </div>
         </div>
         <router-view />
-        <div class="version">0.5.0</div>
+        <div class="version">0.6.0</div>
     </main>
 `;
 
