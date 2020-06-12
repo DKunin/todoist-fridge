@@ -84,15 +84,15 @@ const listPage = {
                 return 0;
             });
 
-            const filtered = sorted.filter(singleItems => {
+            if (filter) {
+                return sorted.filter(singleItem => {
+                    return singleItem.content.toLowerCase().includes((filter || '').toLowerCase())
+                });
+            }
+
+            return sorted.filter(singleItems => {
                 return show === 'full' && singleItems.priority > 1 || show === 'none' && singleItems.priority <= 1 || show === '';
             });
-
-            const searched = filtered.filter(singleItem => {
-                return singleItem.content.toLowerCase().includes((filter || '').toLowerCase())
-            });
-
-            return searched;
         },
         labels() {
             return this.$store.state.labels;
