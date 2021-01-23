@@ -256,7 +256,7 @@ const template = `
             </div>
         </div>
         <router-view />
-        <div class="version">0.6.0</div>
+        <div class="version">0.7.0</div>
     </main>
 `;
 
