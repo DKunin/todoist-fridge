@@ -1,6 +1,6 @@
 {
   "name": "todoist-fridge",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": false,
   "main": "index.html",
   "repository": {
@@ -13,5 +13,6 @@
   "scripts": {},
   "homepage": "https://github.com/dkunin/todoist-fridge",
   "keywords": [],
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {}
 }

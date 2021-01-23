@@ -4,6 +4,8 @@ import listPage from './list.js';
 import newItem from './new-item.js';
 const API_URL = 'https://api.todoist.com/rest/v1';
 
+// console.log(uuid()); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
+
 const noSleep = new noSleepClass();
 
 function enableNoSleep() {
@@ -29,9 +31,15 @@ const persistList = store => {
         ) {
             localStorage.setItem('list', JSON.stringify(state.list));
         }
+
         if (mutation.type === 'updateSettings') {
             localStorage.setItem('settings', JSON.stringify(state.settings));
         }
+
+        if (mutation.type === 'updateSections') {
+            localStorage.setItem('sections', JSON.stringify(state.sections));
+        }
+
         if (mutation.type === 'updateData') {
             localStorage.setItem(
                 mutation.payload.key,
@@ -46,6 +54,7 @@ const store = new Vuex.Store({
     plugins: [persistList],
     state: {
         list: JSON.parse(localStorage.getItem('list')) || [],
+        sections: JSON.parse(localStorage.getItem('sections')) || [],
         labels: JSON.parse(localStorage.getItem('labels')) || {},
         settings: JSON.parse(localStorage.getItem('settings')) || {
             sort: null,
@@ -62,6 +71,7 @@ const store = new Vuex.Store({
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'X-Request-Id': uuid.v4(),
                         Authorization: `Bearer ${state.settings.api_key}`
                     },
                     body: JSON.stringify({
@@ -84,6 +94,8 @@ const store = new Vuex.Store({
             fetch(`${API_URL}/tasks/${itemId}`, {
                 method: 'DELETE',
                 headers: {
+                    'Content-Type': 'application/json',
+                    'X-Request-Id': uuid.v4(),
                     Authorization: `Bearer ${state.settings.api_key}`
                 }
             })
@@ -100,11 +112,11 @@ const store = new Vuex.Store({
                 return singleItem;
             });
             commit('updateList', newList);
-
             fetch(`${API_URL}/tasks/${itemId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'X-Request-Id': uuid.v4(),
                     Authorization: `Bearer ${state.settings.api_key}`
                 },
                 body: JSON.stringify({
@@ -121,6 +133,8 @@ const store = new Vuex.Store({
                 `${API_URL}/tasks?filter=${escape(state.settings.list_query)}`,
                 {
                     headers: {
+                        'Content-Type': 'application/json',
+                        'X-Request-Id': uuid.v4(),
                         Authorization: `Bearer ${state.settings.api_key}`
                     }
                 }
@@ -128,6 +142,24 @@ const store = new Vuex.Store({
                 .then(res => res.json())
                 .then(res => {
                     commit('updateList', res);
+                })
+                .catch(err => console.log(err));
+        },
+        fetchSections({ commit, state }) {
+            fetch(
+                `${API_URL}/sections?project_id=2185437765`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Request-Id': uuid.v4(),
+                        Authorization: `Bearer ${state.settings.api_key}`
+                    }
+                }
+            )
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res);
+                    commit('updateSections', res);
                 })
                 .catch(err => console.log(err));
         },
@@ -167,6 +199,9 @@ const store = new Vuex.Store({
         updateList(state, data) {
             Vue.set(state, 'list', data);
         },
+        updateSections(state, data) {
+            Vue.set(state, 'sections', data);
+        },
         updateSettings(state, data) {
             Vue.set(state.settings, data.key, data.value);
         },
@@ -178,6 +213,7 @@ const store = new Vuex.Store({
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
+                            'X-Request-Id': uuid.v4(),
                             Authorization: `Bearer ${state.settings.api_key}`
                         },
                         body: JSON.stringify({
@@ -241,6 +277,7 @@ const app = {
         }
         // this.$store.dispatch('fetchLabels');
         this.$store.dispatch('fetchTasks');
+        this.$store.dispatch('fetchSections');
     },
     methods: {}
 };
