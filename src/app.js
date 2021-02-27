@@ -74,6 +74,7 @@ const store = new Vuex.Store({
                         'X-Request-Id': uuid.v4(),
                         Authorization: `Bearer ${state.settings.api_key}`
                     },
+                    mode: "no-cors", 
                     body: JSON.stringify({
                         content: value,
                         project_id: state.list[0].project_id
@@ -96,6 +97,7 @@ const store = new Vuex.Store({
                 headers: {
                     'Content-Type': 'application/json',
                     'X-Request-Id': uuid.v4(),
+                    mode: "no-cors",
                     Authorization: `Bearer ${state.settings.api_key}`
                 }
             })
@@ -117,6 +119,7 @@ const store = new Vuex.Store({
                 headers: {
                     'Content-Type': 'application/json',
                     'X-Request-Id': uuid.v4(),
+                    mode: "no-cors", 
                     Authorization: `Bearer ${state.settings.api_key}`
                 },
                 body: JSON.stringify({
@@ -135,6 +138,7 @@ const store = new Vuex.Store({
                     headers: {
                         'Content-Type': 'application/json',
                         'X-Request-Id': uuid.v4(),
+                        mode: "no-cors", 
                         Authorization: `Bearer ${state.settings.api_key}`
                     }
                 }
@@ -152,6 +156,7 @@ const store = new Vuex.Store({
                     headers: {
                         'Content-Type': 'application/json',
                         'X-Request-Id': uuid.v4(),
+                        mode: "no-cors", 
                         Authorization: `Bearer ${state.settings.api_key}`
                     }
                 }
@@ -214,6 +219,7 @@ const store = new Vuex.Store({
                         headers: {
                             'Content-Type': 'application/json',
                             'X-Request-Id': uuid.v4(),
+                            mode: "no-cors", 
                             Authorization: `Bearer ${state.settings.api_key}`
                         },
                         body: JSON.stringify({
